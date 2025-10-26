@@ -1,6 +1,6 @@
-# 📘 Tutoriel Complet : Programmation de la Carte STM32N6570-DK
+# 📘 Guide STM32N6570-DK (Français)
 
-Bienvenue dans ce guide complet pour bien démarrer avec la carte de développement **STM32N6570-DK** de STMicroelectronics. Ce tutoriel vous accompagnera pas à pas, de l'installation des outils jusqu'au téléversement de votre premier programme.
+Guide complet pour programmer la carte de développement **STM32N6570-DK** de STMicroelectronics avec STM32CubeIDE et STM32CubeProgrammer.
 
 ---
 
