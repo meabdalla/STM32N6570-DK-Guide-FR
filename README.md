@@ -62,10 +62,10 @@ La **STM32N6570-DK** est une carte de développement de la famille STM32N6, con�
 ### Caractéristiques principales :
 
 - **Microcontrôleur** : STM32N6570 (architecture ARM Cortex-M55)
-- **Mémoire** : Flash intégrée et RAM étendue
+- **Mémoire** : Flash **externe** (OSPI) et RAM interne 8 MB
 - **Connectivité** : USB, Ethernet, interfaces série (UART, SPI, I2C)
 - **Débogage intégré** : ST-Link V3 embarqué
-- **Affichage** : Écran tactile couleur (selon modèle)
+- **Affichage** : Écran tactile couleur 480x800 pixels
 - **Capteurs et périphériques** : Boutons, LEDs, connecteurs d'extension
 
 ### À quoi sert cette carte ?
