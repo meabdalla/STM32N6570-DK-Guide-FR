@@ -4,39 +4,14 @@ Guide complet pour programmer la carte de développement **STM32N6570-DK** de ST
 
 ---
 
-## 🚨 AVERTISSEMENT CRITIQUE : WINDOWS UNIQUEMENT (POUR LE MOMENT)
+## 🚨 AVERTISSEMENT CRITIQUE
 
-> # ⛔ **UTILISATEURS macOS : CETTE CARTE NE FONCTIONNE PAS SUR macOS** ⛔
+> **⚠️ CETTE CARTE NE FONCTIONNE QUE SUR WINDOWS (pour le moment)**
 >
-> ---
+> - ❌ **macOS** : Non supporté (Intel et Apple Silicon)
+> - ✅ **Windows 10/11** : Seul système compatible
 >
-> # **LA CARTE STM32N6570-DK NE FONCTIONNE QUE SUR WINDOWS**
-> # **(POUR LE MOMENT)**
->
-> ---
->
-> ## ❌ ❌ ❌ **macOS NE FONCTIONNE PAS** ❌ ❌ ❌
->
-> - 🚫 La carte **n'est PAS reconnue** sur macOS
-> - 🚫 **AUCUNE version** de STM32CubeIDE ne fonctionne sur Mac
-> - 🚫 Ni Intel, ni Apple Silicon (M1/M2/M3)
-> - 🚫 **Impossible actuellement** - cela pourrait changer dans le futur
->
-> ---
->
-> ## ✅ ✅ ✅ **WINDOWS 10/11 UNIQUEMENT** ✅ ✅ ✅
->
-> - ✔️ **SEUL** Windows fonctionne
-> - ✔️ Utilisation complète et fiable garantie
->
-> ---
->
-> ## 💡 **Solutions pour utilisateurs Mac :**
-> - **Machine virtuelle Windows** (Parallels, VMware Fusion, VirtualBox)
-> - **Boot Camp** (Mac Intel uniquement)
-> - **Accès à un PC Windows**
->
-> 👉 Consultez la section [Solutions alternatives pour Mac](#-solutions-alternatives-pour-utilisateurs-mac) pour plus de détails.
+> **Utilisateurs Mac :** Consultez [Solutions alternatives](#-solutions-alternatives-pour-utilisateurs-mac) (VM, Boot Camp)
 
 ---
 
@@ -101,7 +76,7 @@ Avant de commencer, assurez-vous de disposer des éléments suivants :
 ### Matériel :
 - Une carte **STM32N6570-DK**
 - Un câble USB Type-C (pour programmation et alimentation)
-- **Un ordinateur sous Windows 10 ou Windows 11** (⚠️ **macOS n'est PAS supporté pour le moment** !)
+- **Un ordinateur sous Windows 10 ou Windows 11**
 
 ### Logiciels (Versions spécifiques OBLIGATOIRES) :
 
@@ -143,7 +118,7 @@ Avant de commencer, assurez-vous de disposer des éléments suivants :
 ![Téléchargement STM32CubeProgrammer](images/download-cubeprogrammer.png)
 > *📷 Capture d'écran de la page de téléchargement*
 
-2. **Installation (Windows uniquement)** :
+2. **Installation** :
    - Exécutez le fichier `.exe` téléchargé
    - Suivez l'assistant d'installation
    - Acceptez les conditions de licence
@@ -179,16 +154,13 @@ Avant de commencer, assurez-vous de disposer des éléments suivants :
 ![Téléchargement STM32CubeIDE](images/download-cubeide.png)
 > *📷 Capture d'écran de la page de téléchargement*
 
-2. **Installation (Windows uniquement)** :
+2. **Installation** :
    - Exécutez l'installeur `.exe` téléchargé
    - Suivez l'assistant d'installation
    - Acceptez les conditions de licence
    - Choisissez le répertoire d'installation (ou laissez par défaut : `C:\ST\STM32CubeIDE`)
    - Attendez la fin de l'installation (peut prendre plusieurs minutes)
    - Les drivers USB sont installés automatiquement
-
-**⚠️ Note pour utilisateurs Mac :**
-L'installation de STM32CubeIDE sur Mac est inutile pour cette carte, car elle ne sera de toute façon pas reconnue **pour le moment**. Utilisez une solution de virtualisation Windows (voir section ci-dessous).
 
 3. **Premier lancement** :
    - Lors du premier démarrage, choisissez un emplacement pour votre workspace (espace de travail)
@@ -208,7 +180,7 @@ L'installation de STM32CubeIDE sur Mac est inutile pour cette carte, car elle ne
 
 ## 🖥️ Solutions alternatives pour utilisateurs Mac
 
-**Vous utilisez macOS ?** Comme expliqué précédemment, la carte STM32N6570-DK ne fonctionne **QUE sous Windows (pour le moment)**. Voici vos options pour pouvoir quand même l'utiliser :
+Puisque la carte nécessite Windows, voici vos options si vous êtes sur Mac :
 
 ### Option 1 : Machine virtuelle Windows (Recommandé) 💻
 
@@ -612,52 +584,7 @@ Pour reprendre l'exécution normale, cliquez sur **"Resume"** (▶️) ou appuye
 
 ## ❓ FAQ / Erreurs fréquentes
 
-### ⚠️ QUESTION CRITIQUE : La carte ne fonctionne pas sur macOS
-
-**Symptômes :**
-- La carte STM32N6570-DK n'est pas détectée sur macOS
-- Erreurs "No ST-LINK detected" dans STM32CubeIDE
-- Impossible de se connecter
-- Échec de programmation systématique
-- Le debugger ne démarre jamais
-
-**Cause :**
-❌ **Vous utilisez macOS, qui n'est PAS compatible avec cette carte (pour le moment) !**
-
-**Réalité technique :**
-La carte STM32N6570-DK **ne fonctionne correctement QUE sous Windows pour le moment**. STMicroelectronics n'a pas développé de support stable pour macOS pour cette carte spécifique. Cela pourrait évoluer dans le futur.
-
-**SOLUTIONS OBLIGATOIRES pour utilisateurs Mac :**
-
-#### Option 1 : Machine virtuelle Windows (RECOMMANDÉ)
-
-**Sur Mac (Intel ou Apple Silicon avec Rosetta) :**
-1. Installez **Parallels Desktop** (payant mais performant) ou **VMware Fusion** ou **VirtualBox** (gratuit)
-2. Créez une machine virtuelle Windows 10 ou 11
-3. Installez Windows normalement dans la VM
-4. **Important** : Configurez le passage USB vers la VM :
-   - Dans Parallels : Devices → USB → STMicroelectronics STLink
-   - Dans VMware : VM → Removable Devices → STMicroelectronics → Connect
-5. Installez STM32CubeIDE et STM32CubeProgrammer dans Windows
-6. La carte devrait être détectée
-
-#### Option 2 : Boot Camp (Mac Intel uniquement)
-
-1. Utilisez l'assistant Boot Camp pour partitionner votre disque
-2. Installez Windows 10/11 en dual boot
-3. Redémarrez sur Windows
-4. Installez STM32CubeIDE et les drivers
-5. Travaillez nativement sous Windows
-
-#### Option 3 : PC Windows physique
-
-Solution la plus simple : utilisez un PC Windows physique si vous en avez accès.
-
-**⚠️ AUCUNE autre solution ne fonctionne - N'essayez pas de forcer la compatibilité !**
-
----
-
-### 1. La carte n'est pas détectée par STM32CubeProgrammer (Windows)
+### 1. La carte n'est pas détectée par STM32CubeProgrammer
 
 **Causes possibles :**
 - Câble USB défectueux ou câble de charge uniquement (sans données)
