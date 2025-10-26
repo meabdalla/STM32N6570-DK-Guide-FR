@@ -4,17 +4,25 @@ Bienvenue dans ce guide complet pour bien démarrer avec la carte de développem
 
 ---
 
-## ⚠️ AVERTISSEMENT IMPORTANT POUR LES UTILISATEURS macOS
+## 🚨 AVERTISSEMENT CRITIQUE : WINDOWS UNIQUEMENT
 
-> **🚨 ATTENTION UTILISATEURS macOS 🚨**
+> **⚠️ ATTENTION UTILISATEURS macOS ET Linux ⚠️**
 >
-> **La carte STM32N6570-DK ne fonctionne correctement sur macOS QU'AVEC LA VERSION 18.0 de STM32CubeIDE !**
+> # **LA CARTE STM32N6570-DK NE FONCTIONNE QUE SUR WINDOWS !**
 >
-> ❌ Les autres versions (plus anciennes ou plus récentes) peuvent causer des problèmes de connexion, de programmation ou de détection de la carte.
+> ❌ **macOS : PAS SUPPORTÉ** - La carte n'est pas reconnue, aucune version de STM32CubeIDE ne fonctionne
 >
-> ✅ **Solution impérative** : Téléchargez et installez **UNIQUEMENT la version 18.0** de STM32CubeIDE depuis les archives ST.
+> ❌ **Linux : PAS SUPPORTÉ** - Problèmes de drivers et de compatibilité ST-Link
 >
-> Consultez la section [Installation STM32CubeIDE sur macOS](#installation-macos--version-180-obligatoire) pour plus de détails.
+> ✅ **UNIQUEMENT WINDOWS** - Seul Windows 10/11 permet une utilisation complète et fiable de cette carte
+>
+> **Solutions pour utilisateurs Mac/Linux :**
+> - Machine virtuelle Windows (VMware, VirtualBox, Parallels)
+> - Boot Camp (Mac Intel uniquement)
+> - Dual boot Windows/Linux
+> - Accès à un PC Windows physique
+>
+> Consultez la section [Solutions alternatives pour Mac/Linux](#-solutions-alternatives-pour-utilisateurs-maclinux) pour plus de détails.
 
 ---
 
@@ -23,13 +31,13 @@ Bienvenue dans ce guide complet pour bien démarrer avec la carte de développem
 1. [Introduction à la carte STM32N6570-DK](#-introduction-à-la-carte-stm32n6570-dk)
 2. [Prérequis](#-prérequis)
 3. [Installation des outils nécessaires](#-installation-des-outils-nécessaires)
-   - [STM32CubeProgrammer](#1-stm32cubeprogrammer)
-   - [Drivers ST-Link](#2-drivers-st-link)
-   - [STM32CubeIDE](#3-stm32cubeide)
-4. [Connexion et programmation avec STM32CubeProgrammer](#-connexion-et-programmation-avec-stm32cubeprogrammer)
-5. [Création, compilation et téléversement avec STM32CubeIDE](#-création-compilation-et-téléversement-avec-stm32cubeide)
-6. [Liens utiles](#-liens-utiles)
-7. [FAQ / Erreurs fréquentes](#-faq--erreurs-fréquentes)
+   - [STM32CubeProgrammer v2.18.0](#1-stm32cubeprogrammer-v2180)
+   - [STM32CubeIDE v1.17.0](#2-stm32cubeide-v1170)
+4. [Solutions alternatives pour utilisateurs Mac/Linux](#-solutions-alternatives-pour-utilisateurs-maclinux)
+5. [Connexion et programmation avec STM32CubeProgrammer](#-connexion-et-programmation-avec-stm32cubeprogrammer)
+6. [Création, compilation et téléversement avec STM32CubeIDE](#-création-compilation-et-téléversement-avec-stm32cubeide)
+7. [Liens utiles](#-liens-utiles)
+8. [FAQ / Erreurs fréquentes](#-faq--erreurs-fréquentes)
 
 ---
 
@@ -51,7 +59,21 @@ La **STM32N6570-DK** est une carte de développement de la famille STM32N6, con�
 - Développement d'applications IoT
 - Prototypage d'interfaces graphiques embarquées
 - Apprentissage de la programmation embarquée sur ARM Cortex-M
+- **Exécution de modèles d'IA embarqués** (détection d'objets, reconnaissance d'images)
 - Tests et validation de concepts temps réel
+
+### ⚠️ PARTICULARITÉ CRITIQUE DE LA STM32N6
+
+> **🚨 IMPORTANT : La série STM32N6 N'A PAS de mémoire Flash interne !**
+>
+> Contrairement aux autres STM32, la STM32N6570 **ne possède pas de Flash interne**. Cela signifie :
+>
+> - ✅ **Mode Development** : Le code peut être chargé temporairement en RAM pour les tests (perdu au redémarrage)
+> - ✅ **Mode Boot from Flash** : Le code doit être programmé dans la **Flash externe** pour persister après extinction
+> - ❌ Vous **ne pouvez PAS** simplement "uploader" un programme comme sur une STM32F4 ou STM32L4
+> - 📋 La programmation nécessite **3 fichiers .hex** : bootloader, données réseau, application
+>
+> Ce tutoriel vous expliquera les deux modes de fonctionnement.
 
 ![Carte STM32N6570-DK](images/stm32n6570-dk-board.jpg)
 > *📷 Remplacez cette ligne par votre capture d'écran de la carte*
@@ -64,30 +86,37 @@ Avant de commencer, assurez-vous de disposer des éléments suivants :
 
 ### Matériel :
 - Une carte **STM32N6570-DK**
-- Un câble USB Type-C (pour connexion ST-Link et alimentation)
-- Un ordinateur sous Windows, Linux ou macOS
+- Un câble USB Type-C (pour programmation et alimentation)
+- **Un ordinateur sous Windows 10 ou Windows 11** (⚠️ macOS et Linux ne sont PAS supportés !)
 
-### Logiciels :
-- **STM32CubeProgrammer** : pour programmer directement la carte
-- **STM32CubeIDE** : environnement de développement intégré
-- **Drivers ST-Link** : pour la communication avec la carte
+### Logiciels (Versions spécifiques OBLIGATOIRES) :
+
+⚠️ **ATTENTION : Utilisez UNIQUEMENT ces versions exactes !**
+
+- **STM32CubeIDE v1.17.0** : environnement de développement intégré
+- **STM32CubeProgrammer v2.18.0** : pour programmer la carte
+- **STEdgeAI v2.2.0** : pour générer des modèles IA (optionnel pour ce tutoriel de base)
+
+❌ **Les autres versions (plus anciennes ou plus récentes) peuvent ne PAS fonctionner correctement avec la STM32N6570-DK !**
 
 ### Liens officiels STMicroelectronics :
 
 | Outil | Lien de téléchargement |
 |-------|------------------------|
-| STM32CubeProgrammer | [https://www.st.com/en/development-tools/stm32cubeprog.html](https://www.st.com/en/development-tools/stm32cubeprog.html) |
-| STM32CubeIDE | [https://www.st.com/en/development-tools/stm32cubeide.html](https://www.st.com/en/development-tools/stm32cubeide.html) |
-| Drivers ST-Link | [https://www.st.com/en/development-tools/stsw-link009.html](https://www.st.com/en/development-tools/stsw-link009.html) |
+| STM32CubeProgrammer v2.18.0 | [https://www.st.com/en/development-tools/stm32cubeprog.html](https://www.st.com/en/development-tools/stm32cubeprog.html) |
+| STM32CubeIDE v1.17.0 | [https://www.st.com/en/development-tools/stm32cubeide.html](https://www.st.com/en/development-tools/stm32cubeide.html) |
 | Documentation STM32N6 | [https://www.st.com/en/microcontrollers-microprocessors/stm32n6-series.html](https://www.st.com/en/microcontrollers-microprocessors/stm32n6-series.html) |
+| Repository GitHub STM32N6 | [https://github.com/STMicroelectronics/STM32N6-GettingStarted-ObjectDetection](https://github.com/STMicroelectronics/STM32N6-GettingStarted-ObjectDetection) |
 
 ---
 
 ## 🛠️ Installation des outils nécessaires
 
-### 1. STM32CubeProgrammer
+### 1. STM32CubeProgrammer v2.18.0
 
 **STM32CubeProgrammer** est l'outil officiel de STMicroelectronics permettant de programmer et d'effacer la mémoire Flash des microcontrôleurs STM32.
+
+⚠️ **Version requise : v2.18.0 UNIQUEMENT** - Les autres versions peuvent causer des problèmes avec la STM32N6570-DK.
 
 #### Étapes d'installation :
 
@@ -100,10 +129,12 @@ Avant de commencer, assurez-vous de disposer des éléments suivants :
 ![Téléchargement STM32CubeProgrammer](images/download-cubeprogrammer.png)
 > *📷 Capture d'écran de la page de téléchargement*
 
-2. **Installation** :
-   - **Windows** : Exécutez le fichier `.exe` et suivez l'assistant d'installation
-   - **Linux** : Décompressez l'archive et exécutez le script `SetupSTM32CubeProgrammer.sh`
-   - **macOS** : Ouvrez le fichier `.dmg` et glissez l'application dans le dossier Applications
+2. **Installation (Windows uniquement)** :
+   - Exécutez le fichier `.exe` téléchargé
+   - Suivez l'assistant d'installation
+   - Acceptez les conditions de licence
+   - Choisissez le répertoire d'installation (ou laissez par défaut)
+   - Attendez la fin de l'installation
 
 3. **Vérification** :
    - Lancez STM32CubeProgrammer
@@ -112,111 +143,38 @@ Avant de commencer, assurez-vous de disposer des éléments suivants :
 ![Interface STM32CubeProgrammer](images/cubeprogrammer-interface.png)
 > *📷 Capture d'écran de l'interface principale*
 
----
-
-### 2. Drivers ST-Link
-
-Les drivers ST-Link sont essentiels pour établir la communication entre votre ordinateur et la carte via l'interface de débogage ST-Link intégrée.
-
-#### Installation Windows :
-
-1. Téléchargez le package depuis [ce lien](https://www.st.com/en/development-tools/stsw-link009.html)
-2. Décompressez l'archive
-3. Exécutez `stlink_winusb_install.bat` en tant qu'administrateur
-4. Suivez les instructions à l'écran
-
-![Installation drivers ST-Link](images/stlink-driver-install.png)
-> *📷 Capture d'écran de l'installation des drivers*
-
-#### Installation Linux :
-
-Les drivers sont généralement inclus dans le noyau Linux moderne. Si nécessaire :
-
-```bash
-sudo apt-get update
-sudo apt-get install libusb-1.0-0-dev
-```
-
-Ajoutez les règles udev :
-
-```bash
-sudo cp 49-stlinkv3.rules /etc/udev/rules.d/
-sudo udevadm control --reload-rules
-sudo udevadm trigger
-```
-
-#### Installation macOS :
-
-Les drivers sont inclus dans STM32CubeProgrammer et STM32CubeIDE.
+**💡 Note importante :** Les drivers USB nécessaires sont **automatiquement installés** avec STM32CubeProgrammer et STM32CubeIDE. Aucune installation séparée n'est requise !
 
 ---
 
-### 3. STM32CubeIDE
+### 2. STM32CubeIDE v1.17.0
 
 **STM32CubeIDE** est l'environnement de développement intégré officiel de STMicroelectronics, basé sur Eclipse, permettant de créer, compiler et déboguer vos projets STM32.
 
+⚠️ **Version requise : v1.17.0 UNIQUEMENT** - Cette version spécifique est testée et validée pour la STM32N6570-DK.
+
 #### Étapes d'installation :
 
-1. **Téléchargement** :
+1. **Téléchargement de la version 1.17.0** :
    - Rendez-vous sur [cette page](https://www.st.com/en/development-tools/stm32cubeide.html)
-   - Téléchargez la version pour votre système d'exploitation
+   - Cliquez sur "Get Software"
+   - **Important** : Descendez jusqu'à la section **"Version History"** ou **"All versions"**
+   - Recherchez et téléchargez **STM32CubeIDE 1.17.0** pour Windows
+   - Si vous ne trouvez pas cette version, elle peut être dans les archives
 
 ![Téléchargement STM32CubeIDE](images/download-cubeide.png)
 > *📷 Capture d'écran de la page de téléchargement*
 
-2. **Installation** :
-   - **Windows** : Exécutez l'installeur `.exe`
-   - **Linux** : Exécutez le script d'installation `.sh`
-   - **macOS** : Voir la section spécifique ci-dessous ⬇️
+2. **Installation (Windows uniquement)** :
+   - Exécutez l'installeur `.exe` téléchargé
+   - Suivez l'assistant d'installation
+   - Acceptez les conditions de licence
+   - Choisissez le répertoire d'installation (ou laissez par défaut : `C:\ST\STM32CubeIDE`)
+   - Attendez la fin de l'installation (peut prendre plusieurs minutes)
+   - Les drivers USB sont installés automatiquement
 
-#### Installation macOS : Version 18.0 OBLIGATOIRE ⚠️
-
-> **🚨 ATTENTION : Sur macOS, SEULE la version 18.0 de STM32CubeIDE fonctionne correctement avec la carte STM32N6570-DK !**
-
-**Pourquoi cette version spécifique ?**
-- Les versions antérieures à 18.0 ne reconnaissent pas correctement la carte
-- Les versions plus récentes (18.1+, 19.0+) ont des problèmes de compatibilité avec le ST-Link de cette carte sur macOS
-- Seule la version 18.0 assure une connexion stable et un téléversement fiable
-
-**Comment télécharger la version 18.0 :**
-
-1. Rendez-vous sur la page [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html)
-2. Cliquez sur "Get Software"
-3. **Faites défiler vers le bas** jusqu'à la section **"Version History"** ou **"Older Versions"**
-4. Recherchez et téléchargez **STM32CubeIDE 18.0** pour macOS
-5. Si vous ne trouvez pas la version 18.0 dans la liste :
-   - Essayez ce lien direct : `https://www.st.com/en/development-tools/stm32cubeide.html#get-software`
-   - Contactez le support ST pour obtenir l'archive de la version 18.0
-
-**Installation :**
-
-1. Montez le fichier `.dmg` téléchargé (version 18.0)
-2. Glissez l'application **STM32CubeIDE** dans le dossier **Applications**
-3. Au premier lancement, macOS peut bloquer l'application (sécurité Gatekeeper) :
-   - Allez dans **Préférences Système → Sécurité et confidentialité**
-   - Cliquez sur **"Ouvrir quand même"**
-4. Acceptez les autorisations demandées
-
-**Vérification de la version :**
-
-1. Lancez STM32CubeIDE
-2. Allez dans **STM32CubeIDE → About STM32CubeIDE**
-3. Vérifiez que la version affichée est bien **18.0.x**
-
-![Vérification version macOS](images/cubeide-macos-version.png)
-> *📷 Capture d'écran de la fenêtre About montrant la version 18.0*
-
-**⚠️ Si vous avez déjà installé une autre version :**
-
-1. Désinstallez complètement l'ancienne version :
-   - Supprimez l'application du dossier Applications
-   - Supprimez les fichiers de configuration :
-     ```bash
-     rm -rf ~/Library/Application\ Support/STMicroelectronics/STM32CubeIDE
-     rm -rf ~/.stm32cubeide
-     ```
-2. Redémarrez votre Mac
-3. Installez la version 18.0 comme indiqué ci-dessus
+**⚠️ Note pour utilisateurs Mac/Linux :**
+L'installation de STM32CubeIDE sur Mac ou Linux est inutile pour cette carte, car elle ne sera de toute façon pas reconnue. Utilisez une solution de virtualisation Windows (voir section ci-dessous).
 
 3. **Premier lancement** :
    - Lors du premier démarrage, choisissez un emplacement pour votre workspace (espace de travail)
@@ -234,30 +192,190 @@ Les drivers sont inclus dans STM32CubeProgrammer et STM32CubeIDE.
 
 ---
 
+## 🖥️ Solutions alternatives pour utilisateurs Mac/Linux
+
+**Vous utilisez macOS ou Linux ?** Comme expliqué précédemment, la carte STM32N6570-DK ne fonctionne **QUE sous Windows**. Voici vos options pour pouvoir quand même l'utiliser :
+
+### Option 1 : Machine virtuelle Windows (Recommandé) 💻
+
+Cette solution permet de faire tourner Windows dans une fenêtre sur votre Mac ou Linux.
+
+#### Sur macOS :
+
+**Logiciels disponibles :**
+- **Parallels Desktop** (payant ~100€/an) - Le plus performant, supporte Apple Silicon
+- **VMware Fusion** (gratuit pour usage personnel depuis 2024) - Très bon aussi
+- **VirtualBox** (gratuit, open-source) - Correct mais moins performant
+
+**Étapes avec Parallels Desktop (recommandé pour Mac) :**
+
+1. **Achetez et installez Parallels Desktop** depuis [parallels.com](https://www.parallels.com)
+2. **Téléchargez Windows 10/11** :
+   - Parallels peut télécharger Windows automatiquement
+   - Ou téléchargez une ISO depuis [microsoft.com](https://www.microsoft.com/software-download/windows11)
+3. **Créez la machine virtuelle** :
+   - Lancez Parallels
+   - Créez une nouvelle VM
+   - Allouez au moins 4 Go de RAM et 2 CPU
+   - Installez Windows
+4. **Configurez le passage USB** :
+   - Branchez la carte STM32N6570-DK
+   - Dans Parallels, menu **Devices → USB & Bluetooth → STMicroelectronics STLink**
+   - Cochez "Connect to Windows"
+5. **Installez les outils** dans Windows :
+   - STM32CubeIDE
+   - STM32CubeProgrammer
+   - Drivers ST-Link
+6. **Travaillez normalement** comme si vous étiez sur un PC Windows !
+
+**Étapes avec VirtualBox (gratuit) :**
+
+1. **Installez VirtualBox** depuis [virtualbox.org](https://www.virtualbox.org)
+2. **Installez le Extension Pack** (obligatoire pour USB 3.0)
+3. **Créez une VM Windows 10/11** :
+   - 4 Go RAM minimum (8 Go recommandé)
+   - 50 Go d'espace disque
+   - Activez le support USB 3.0 dans Settings → USB
+4. **Configurez USB** :
+   - Settings → USB → Add new USB filter
+   - Sélectionnez "STMicroelectronics" quand la carte est branchée
+5. **Installez Windows et les outils**
+
+#### Sur Linux :
+
+**Logiciels disponibles :**
+- **VirtualBox** (gratuit) - Le plus simple
+- **VMware Workstation Player** (gratuit pour usage non commercial)
+- **QEMU/KVM** (gratuit, très performant mais plus complexe)
+
+**Étapes avec VirtualBox :**
+
+1. **Installation** :
+   ```bash
+   sudo apt update
+   sudo apt install virtualbox virtualbox-ext-pack
+   ```
+
+2. **Ajoutez votre utilisateur au groupe vboxusers** :
+   ```bash
+   sudo usermod -aG vboxusers $USER
+   ```
+   Puis déconnectez-vous et reconnectez-vous
+
+3. **Créez une VM Windows** :
+   - Téléchargez Windows 10/11 ISO
+   - Nouvelle VM : Type "Microsoft Windows", Version "Windows 10/11 (64-bit)"
+   - RAM : 4096 Mo minimum
+   - Disque : 50 Go
+   - Settings → USB → Enable USB 3.0 Controller
+
+4. **Passez la carte USB à la VM** :
+   - Démarrez la VM Windows
+   - Devices → USB → STMicroelectronics STLink
+
+5. **Installez les outils dans Windows**
+
+### Option 2 : Boot Camp (Mac Intel uniquement) 🍎
+
+Boot Camp permet d'installer Windows en dual-boot sur un Mac Intel (ne fonctionne PAS sur Mac Apple Silicon M1/M2/M3).
+
+**Avantages :**
+- Performances natives (pas de virtualisation)
+- Accès complet au matériel
+
+**Inconvénients :**
+- Nécessite de redémarrer pour changer d'OS
+- Prend beaucoup d'espace disque (min 64 Go)
+
+**Étapes :**
+
+1. **Vérifiez que vous avez un Mac Intel** :
+   - Menu Pomme → À propos de ce Mac
+   - Si vous voyez "Processeur Intel", OK
+   - Si vous voyez "Puce Apple M1/M2/M3", Boot Camp n'est pas disponible
+
+2. **Sauvegardez vos données** (Time Machine recommandé)
+
+3. **Téléchargez Windows 10/11 ISO** depuis microsoft.com
+
+4. **Lancez l'Assistant Boot Camp** :
+   - Applications → Utilitaires → Assistant Boot Camp
+   - Suivez les instructions
+   - Allouez au moins 64 Go pour Windows (100 Go recommandé)
+
+5. **Installez Windows** (l'assistant le fait automatiquement)
+
+6. **Installez les drivers Boot Camp** (démarre automatiquement sous Windows)
+
+7. **Installez les outils STM32** sous Windows
+
+8. **Basculer entre macOS et Windows** :
+   - Redémarrez et maintenez la touche Option (⌥) au démarrage
+   - Choisissez le disque de démarrage
+
+### Option 3 : Accès distant à un PC Windows 🌐
+
+Si vous avez accès à un PC Windows (au travail, chez un ami, etc.) :
+
+1. **Installez un logiciel de bureau à distance** :
+   - **TeamViewer** (gratuit pour usage personnel)
+   - **Chrome Remote Desktop** (gratuit)
+   - **Microsoft Remote Desktop** (si le PC est sous Windows Pro)
+
+2. **Configurez l'accès distant sur le PC Windows**
+
+3. **Connectez-vous depuis votre Mac/Linux**
+
+4. **Branchez la carte sur le PC Windows**
+
+5. **Travaillez à distance** (peut être lent selon votre connexion)
+
+### Option 4 : Acheter un mini PC Windows 💰
+
+Solution radicale mais efficace :
+
+- **Mini PC Windows** (200-400€) : Intel NUC, Beelink, etc.
+- Branchez-y un écran/clavier/souris ou utilisez-le en headless via Remote Desktop
+- Dédiez-le au développement embarqué
+
+### ⚠️ Ce qui NE fonctionne PAS :
+
+❌ Installer les drivers manuellement sur Mac/Linux
+❌ Utiliser Wine ou CrossOver
+❌ Compiler des drivers open-source alternatifs
+❌ Utiliser d'anciennes versions de STM32CubeIDE
+❌ Prier très fort 🙏
+
+**La virtualisation Windows est votre meilleure option !**
+
+---
+
 ## 🔌 Connexion et programmation avec STM32CubeProgrammer
 
 Cette section explique comment connecter votre carte STM32N6570-DK et programmer la mémoire Flash à l'aide de STM32CubeProgrammer.
 
 ### Étape 1 : Connexion physique de la carte
 
-1. **Branchez le câble USB Type-C** sur le connecteur ST-Link de la carte (généralement identifié "ST-LINK" ou "USB ST-LINK")
-2. **Connectez l'autre extrémité** à votre ordinateur
-3. **Vérifiez l'alimentation** : une LED devrait s'allumer sur la carte, indiquant qu'elle est alimentée
+1. **Branchez le câble USB Type-C** sur le connecteur USB de la carte (marqué "USB STLINK" ou "CN15")
+2. **Connectez l'autre extrémité** à votre ordinateur Windows
+3. **Vérifiez l'alimentation** : une LED verte devrait s'allumer sur la carte
 
 ![Connexion USB carte](images/board-usb-connection.jpg)
 > *📷 Photo montrant le branchement du câble USB*
 
+💡 **Astuce** : Utilisez un port USB 3.0 (bleu) pour une meilleure alimentation et une connexion plus stable.
+
 ### Étape 2 : Connexion dans STM32CubeProgrammer
 
 1. **Lancez STM32CubeProgrammer**
-2. Dans le coin supérieur droit, sélectionnez **"ST-LINK"** comme méthode de connexion
-3. Cliquez sur le bouton **"Refresh"** (🔄) pour détecter automatiquement la carte
-4. Les paramètres devraient être automatiquement remplis :
+2. Dans le coin supérieur droit, sélectionnez **"ST-LINK"** dans le menu déroulant
+3. Cliquez sur le bouton **🔄 Refresh** pour détecter automatiquement la carte
+4. Les paramètres devraient être automatiquement détectés :
    - **Port** : USB
-   - **Serial Number** : Le numéro de série de votre ST-Link
+   - **Serial Number** : détecté automatiquement
    - **Frequency** : 4000 kHz (par défaut)
-   - **Mode** : Under Reset ou Hot Plug
-5. Cliquez sur le bouton **"Connect"** (🔌)
+   - **Mode** : Under Reset (recommandé)
+5. Cliquez sur le bouton vert **"Connect"**
 
 ![Connexion STM32CubeProgrammer](images/cubeprogrammer-connect.png)
 > *📷 Capture d'écran de la connexion réussie*
@@ -479,6 +597,14 @@ Pour reprendre l'exécution normale, cliquez sur **"Resume"** (▶️) ou appuye
 
 ## 🔗 Liens utiles
 
+### Repository GitHub officiel STM32N6 :
+
+- **[STM32N6-GettingStarted-ObjectDetection](https://github.com/STMicroelectronics/STM32N6-GettingStarted-ObjectDetection)** - Exemple complet de détection d'objets avec IA embarquée
+  - Exemples de code source
+  - Fichiers .hex pré-compilés
+  - Documentation sur la programmation en mode Boot from Flash
+  - Tutoriel d'intégration avec STEdgeAI ModelZoo
+
 ### Documentation officielle STMicroelectronics :
 
 - [Page produit STM32N6570-DK](https://www.st.com/en/evaluation-tools/stm32n6570-dk.html)
@@ -504,95 +630,89 @@ Pour reprendre l'exécution normale, cliquez sur **"Resume"** (▶️) ou appuye
 
 ## ❓ FAQ / Erreurs fréquentes
 
-### ⚠️ QUESTION CRITIQUE : Problèmes sur macOS - Carte non détectée / Erreurs de connexion
+### ⚠️ QUESTION CRITIQUE : La carte ne fonctionne pas sur macOS / Linux
 
 **Symptômes :**
-- La carte STM32N6570-DK n'est pas détectée sur macOS
+- La carte STM32N6570-DK n'est pas détectée sur macOS ou Linux
 - Erreurs "No ST-LINK detected" dans STM32CubeIDE
 - Impossible de se connecter via ST-Link
-- Échec de programmation récurrent
-- Le debugger ne démarre pas
+- Échec de programmation systématique
+- Le debugger ne démarre jamais
 
-**Cause principale :**
-❌ **Vous n'utilisez PAS la version 18.0 de STM32CubeIDE !**
+**Cause :**
+❌ **Vous utilisez macOS ou Linux, qui ne sont PAS compatibles avec cette carte !**
 
-**Solution OBLIGATOIRE :**
+**Réalité technique :**
+La carte STM32N6570-DK **ne fonctionne correctement QUE sous Windows**. STMicroelectronics n'a pas développé de support stable pour macOS/Linux pour cette carte spécifique.
 
-1. **Vérifiez votre version actuelle** :
-   - Ouvrez STM32CubeIDE
-   - Menu : **STM32CubeIDE → About STM32CubeIDE**
-   - Si la version n'est PAS 18.0.x, vous DEVEZ la changer
+**SOLUTIONS OBLIGATOIRES pour utilisateurs Mac/Linux :**
 
-2. **Désinstallez la version actuelle** :
-   ```bash
-   # Supprimez l'application
-   sudo rm -rf /Applications/STM32CubeIDE.app
+#### Option 1 : Machine virtuelle Windows (RECOMMANDÉ)
 
-   # Supprimez les fichiers de configuration
-   rm -rf ~/Library/Application\ Support/STMicroelectronics/STM32CubeIDE
-   rm -rf ~/.stm32cubeide
-   rm -rf ~/STM32CubeIDE
-   ```
+**Sur Mac (Intel ou Apple Silicon avec Rosetta) :**
+1. Installez **Parallels Desktop** (payant mais performant) ou **VMware Fusion** ou **VirtualBox** (gratuit)
+2. Créez une machine virtuelle Windows 10 ou 11
+3. Installez Windows normalement dans la VM
+4. **Important** : Configurez le passage USB vers la VM :
+   - Dans Parallels : Devices → USB → STMicroelectronics STLink
+   - Dans VMware : VM → Removable Devices → STMicroelectronics → Connect
+5. Installez STM32CubeIDE et les drivers dans Windows
+6. La carte devrait être détectée
 
-3. **Téléchargez et installez UNIQUEMENT la version 18.0** :
-   - Allez sur [la page STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html)
-   - Téléchargez la version **18.0** pour macOS (voir section Version History)
-   - Installez cette version
+**Sur Linux :**
+1. Installez **VirtualBox** ou **VMware Workstation**
+2. Créez une VM Windows 10/11
+3. Installez les **VirtualBox Extension Pack** (pour le support USB 2.0/3.0)
+4. Activez le contrôleur USB 3.0 dans les paramètres de la VM
+5. Connectez la carte via Devices → USB → STMicroelectronics
+6. Installez les outils dans Windows
 
-4. **Redémarrez votre Mac**
+#### Option 2 : Boot Camp (Mac Intel uniquement)
 
-5. **Testez la connexion** :
-   - Branchez la carte
-   - Lancez STM32CubeIDE 18.0
-   - Créez ou ouvrez un projet
-   - Essayez de vous connecter au debugger
+1. Utilisez l'assistant Boot Camp pour partitionner votre disque
+2. Installez Windows 10/11 en dual boot
+3. Redémarrez sur Windows
+4. Installez STM32CubeIDE et les drivers
+5. Travaillez nativement sous Windows
 
-**Pourquoi UNIQUEMENT la version 18.0 ?**
-- C'est la SEULE version compatible avec le ST-Link V3 de la STM32N6570-DK sur macOS
-- Les autres versions ont des bugs de drivers USB sur macOS
-- ST n'a pas corrigé ce problème dans les versions ultérieures
+#### Option 3 : PC Windows physique
 
-**Si ça ne fonctionne toujours pas :**
-- Vérifiez que vous utilisez bien un câble USB-C de données (pas un câble de charge uniquement)
-- Essayez un autre port USB-C sur votre Mac
-- Vérifiez dans "Informations Système → USB" que le ST-Link V3 apparaît
+Solution la plus simple : utilisez un PC Windows physique si vous en avez accès.
+
+**⚠️ AUCUNE autre solution ne fonctionne - N'essayez pas de forcer la compatibilité !**
 
 ---
 
-### 1. La carte n'est pas détectée par STM32CubeProgrammer
+### 1. La carte n'est pas détectée par STM32CubeProgrammer (Windows)
 
 **Causes possibles :**
-- Drivers ST-Link non installés ou corrompus
-- Câble USB défectueux
+- Câble USB défectueux ou câble de charge uniquement (sans données)
 - Port USB sans alimentation suffisante
 - Mauvais mode de connexion sélectionné
+- Carte non alimentée correctement
 
 **Solutions :**
-1. Réinstallez les drivers ST-Link
-2. Essayez un autre câble USB ou un autre port USB
-3. Dans STM32CubeProgrammer, changez le mode de connexion :
-   - Essayez "Under Reset" au lieu de "Hot Plug"
-   - Ou inversement
-4. Vérifiez que la carte est bien alimentée (LED allumée)
-5. Sur Linux, vérifiez les permissions USB :
-   ```bash
-   sudo usermod -a -G dialout $USER
-   sudo usermod -a -G plugdev $USER
-   ```
-   Puis redémarrez votre session.
+1. **Vérifiez le câble USB** : Utilisez un câble USB-C de qualité avec support données (pas juste un câble de charge)
+2. **Changez de port USB** : Essayez un port USB 3.0 (bleu) pour une meilleure alimentation
+3. **Vérifiez l'alimentation** : La LED verte doit être allumée sur la carte
+4. **Changez le mode de connexion** dans STM32CubeProgrammer :
+   - Essayez "Under Reset" au lieu de "Hot Plug", ou inversement
+5. **Redémarrez** STM32CubeProgrammer et reconnectez la carte
+6. **Redémarrez Windows** si le problème persiste
 
 ---
 
 ### 2. Erreur "No target connected" dans STM32CubeIDE
 
 **Solutions :**
-1. Assurez-vous que la carte est connectée et alimentée
-2. Fermez STM32CubeProgrammer s'il est ouvert (conflit d'accès)
-3. Dans STM32CubeIDE :
-   - Run → Debug Configurations
-   - Vérifiez que ST-LINK est sélectionné
+1. **Vérifiez la connexion** : Assurez-vous que la carte est branchée et alimentée (LED verte allumée)
+2. **Fermez STM32CubeProgrammer** s'il est ouvert (les deux outils ne peuvent pas accéder à la carte en même temps)
+3. **Vérifiez la configuration de debug** dans STM32CubeIDE :
+   - Menu : Run → Debug Configurations
+   - Vérifiez que "ST-LINK (ST-LINK GDB server)" est sélectionné
    - Cliquez sur "Scan" pour détecter la carte
-4. Redémarrez la carte (débranchez/rebranchez le USB)
+4. **Redémarrez la carte** : Débranchez et rebranchez le câble USB
+5. **Redémarrez STM32CubeIDE**
 
 ---
 
@@ -655,14 +775,16 @@ Pour reprendre l'exécution normale, cliquez sur **"Resume"** (▶️) ou appuye
 ### 7. Impossible de télécharger avec STM32CubeProgrammer (Error: Data read failed)
 
 **Solutions :**
-1. Effectuez un effacement complet de la Flash :
+1. **Effacez complètement la Flash externe** :
    - Dans STM32CubeProgrammer, onglet "Erasing & Programming"
    - Cliquez sur "Full chip erase"
-2. Essayez de réduire la fréquence de connexion :
-   - Passez de 4000 kHz à 1000 kHz ou moins
-3. Mettez à jour le firmware du ST-Link :
-   - Dans STM32CubeProgrammer, menu "Firmware upgrade"
-   - Suivez les instructions
+   - Attendez la fin de l'opération
+2. **Réduisez la fréquence de connexion** :
+   - Dans les paramètres de connexion, changez la fréquence de 4000 kHz à 1000 kHz ou moins
+   - Reconnectez-vous à la carte
+3. **Changez le mode de connexion** :
+   - Essayez "Under Reset" pour forcer la réinitialisation lors de la connexion
+4. **Vérifiez la qualité du câble USB** et utilisez un port USB 3.0 si possible
 
 ---
 
