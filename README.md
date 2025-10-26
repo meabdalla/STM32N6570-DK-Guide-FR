@@ -4,6 +4,20 @@ Bienvenue dans ce guide complet pour bien démarrer avec la carte de développem
 
 ---
 
+## ⚠️ AVERTISSEMENT IMPORTANT POUR LES UTILISATEURS macOS
+
+> **🚨 ATTENTION UTILISATEURS macOS 🚨**
+>
+> **La carte STM32N6570-DK ne fonctionne correctement sur macOS QU'AVEC LA VERSION 18.0 de STM32CubeIDE !**
+>
+> ❌ Les autres versions (plus anciennes ou plus récentes) peuvent causer des problèmes de connexion, de programmation ou de détection de la carte.
+>
+> ✅ **Solution impérative** : Téléchargez et installez **UNIQUEMENT la version 18.0** de STM32CubeIDE depuis les archives ST.
+>
+> Consultez la section [Installation STM32CubeIDE sur macOS](#installation-macos--version-180-obligatoire) pour plus de détails.
+
+---
+
 ## 📋 Table des Matières
 
 1. [Introduction à la carte STM32N6570-DK](#-introduction-à-la-carte-stm32n6570-dk)
@@ -153,7 +167,56 @@ Les drivers sont inclus dans STM32CubeProgrammer et STM32CubeIDE.
 2. **Installation** :
    - **Windows** : Exécutez l'installeur `.exe`
    - **Linux** : Exécutez le script d'installation `.sh`
-   - **macOS** : Montez le fichier `.dmg` et suivez les instructions
+   - **macOS** : Voir la section spécifique ci-dessous ⬇️
+
+#### Installation macOS : Version 18.0 OBLIGATOIRE ⚠️
+
+> **🚨 ATTENTION : Sur macOS, SEULE la version 18.0 de STM32CubeIDE fonctionne correctement avec la carte STM32N6570-DK !**
+
+**Pourquoi cette version spécifique ?**
+- Les versions antérieures à 18.0 ne reconnaissent pas correctement la carte
+- Les versions plus récentes (18.1+, 19.0+) ont des problèmes de compatibilité avec le ST-Link de cette carte sur macOS
+- Seule la version 18.0 assure une connexion stable et un téléversement fiable
+
+**Comment télécharger la version 18.0 :**
+
+1. Rendez-vous sur la page [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html)
+2. Cliquez sur "Get Software"
+3. **Faites défiler vers le bas** jusqu'à la section **"Version History"** ou **"Older Versions"**
+4. Recherchez et téléchargez **STM32CubeIDE 18.0** pour macOS
+5. Si vous ne trouvez pas la version 18.0 dans la liste :
+   - Essayez ce lien direct : `https://www.st.com/en/development-tools/stm32cubeide.html#get-software`
+   - Contactez le support ST pour obtenir l'archive de la version 18.0
+
+**Installation :**
+
+1. Montez le fichier `.dmg` téléchargé (version 18.0)
+2. Glissez l'application **STM32CubeIDE** dans le dossier **Applications**
+3. Au premier lancement, macOS peut bloquer l'application (sécurité Gatekeeper) :
+   - Allez dans **Préférences Système → Sécurité et confidentialité**
+   - Cliquez sur **"Ouvrir quand même"**
+4. Acceptez les autorisations demandées
+
+**Vérification de la version :**
+
+1. Lancez STM32CubeIDE
+2. Allez dans **STM32CubeIDE → About STM32CubeIDE**
+3. Vérifiez que la version affichée est bien **18.0.x**
+
+![Vérification version macOS](images/cubeide-macos-version.png)
+> *📷 Capture d'écran de la fenêtre About montrant la version 18.0*
+
+**⚠️ Si vous avez déjà installé une autre version :**
+
+1. Désinstallez complètement l'ancienne version :
+   - Supprimez l'application du dossier Applications
+   - Supprimez les fichiers de configuration :
+     ```bash
+     rm -rf ~/Library/Application\ Support/STMicroelectronics/STM32CubeIDE
+     rm -rf ~/.stm32cubeide
+     ```
+2. Redémarrez votre Mac
+3. Installez la version 18.0 comme indiqué ci-dessus
 
 3. **Premier lancement** :
    - Lors du premier démarrage, choisissez un emplacement pour votre workspace (espace de travail)
@@ -440,6 +503,61 @@ Pour reprendre l'exécution normale, cliquez sur **"Resume"** (▶️) ou appuye
 ---
 
 ## ❓ FAQ / Erreurs fréquentes
+
+### ⚠️ QUESTION CRITIQUE : Problèmes sur macOS - Carte non détectée / Erreurs de connexion
+
+**Symptômes :**
+- La carte STM32N6570-DK n'est pas détectée sur macOS
+- Erreurs "No ST-LINK detected" dans STM32CubeIDE
+- Impossible de se connecter via ST-Link
+- Échec de programmation récurrent
+- Le debugger ne démarre pas
+
+**Cause principale :**
+❌ **Vous n'utilisez PAS la version 18.0 de STM32CubeIDE !**
+
+**Solution OBLIGATOIRE :**
+
+1. **Vérifiez votre version actuelle** :
+   - Ouvrez STM32CubeIDE
+   - Menu : **STM32CubeIDE → About STM32CubeIDE**
+   - Si la version n'est PAS 18.0.x, vous DEVEZ la changer
+
+2. **Désinstallez la version actuelle** :
+   ```bash
+   # Supprimez l'application
+   sudo rm -rf /Applications/STM32CubeIDE.app
+
+   # Supprimez les fichiers de configuration
+   rm -rf ~/Library/Application\ Support/STMicroelectronics/STM32CubeIDE
+   rm -rf ~/.stm32cubeide
+   rm -rf ~/STM32CubeIDE
+   ```
+
+3. **Téléchargez et installez UNIQUEMENT la version 18.0** :
+   - Allez sur [la page STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html)
+   - Téléchargez la version **18.0** pour macOS (voir section Version History)
+   - Installez cette version
+
+4. **Redémarrez votre Mac**
+
+5. **Testez la connexion** :
+   - Branchez la carte
+   - Lancez STM32CubeIDE 18.0
+   - Créez ou ouvrez un projet
+   - Essayez de vous connecter au debugger
+
+**Pourquoi UNIQUEMENT la version 18.0 ?**
+- C'est la SEULE version compatible avec le ST-Link V3 de la STM32N6570-DK sur macOS
+- Les autres versions ont des bugs de drivers USB sur macOS
+- ST n'a pas corrigé ce problème dans les versions ultérieures
+
+**Si ça ne fonctionne toujours pas :**
+- Vérifiez que vous utilisez bien un câble USB-C de données (pas un câble de charge uniquement)
+- Essayez un autre port USB-C sur votre Mac
+- Vérifiez dans "Informations Système → USB" que le ST-Link V3 apparaît
+
+---
 
 ### 1. La carte n'est pas détectée par STM32CubeProgrammer
 
