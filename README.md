@@ -83,7 +83,7 @@ Avant de commencer, assurez-vous de disposer des éléments suivants :
 ⚠️ **ATTENTION : Utilisez UNIQUEMENT ces versions exactes !**
 
 - **STM32CubeIDE v1.17.0** : environnement de développement intégré
-- **STM32CubeProgrammer v2.18.0** : pour programmer la carte
+- **STM32CubeProgrammer v1.18.0** : pour programmer la carte
 - **STEdgeAI v2.2.0** : pour générer des modèles IA (optionnel pour ce tutoriel de base)
 
 ❌ **Les autres versions (plus anciennes ou plus récentes) peuvent ne PAS fonctionner correctement avec la STM32N6570-DK !**
