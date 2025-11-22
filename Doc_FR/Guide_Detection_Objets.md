@@ -21,7 +21,7 @@ Le projet est fourni avec un modèle YOLOv8n pré-entraîné et converti.
 
 ## 3. Utiliser STEdgeAI v2.2.0
 
-Pour utiliser votre propre modèle, vous devez utiliser **STEdgeAI**.
+Pour utiliser votre propre modèle, vous devez utiliser **STEdgeAI** (compatible avec STM32CubeIDE v1.18.0).
 
 ### Génération et Quantization :
 1. **Entraînement :** Entraînez votre modèle YOLOv8 avec Ultralytics (Python). Exportez-le en format `.tflite`.

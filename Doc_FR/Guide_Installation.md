@@ -4,30 +4,15 @@ Ce guide couvre l'installation des outils nécessaires pour développer sur STM3
 
 ## 1. Prérequis Logiciels
 
-Pour suivre ce tutoriel, vous devez installer les versions suivantes (ou plus récentes) :
+Pour suivre ce tutoriel, vous devez installer les versions suivantes :
 
-- **STM32CubeIDE v1.17.0** : L'environnement de développement intégré.
+- **STM32CubeIDE v1.18.0** ⚠️ **VERSION OBLIGATOIRE** (les versions précédentes ne sont pas compatibles avec le STM32N6).
 - **STM32CubeProgrammer v2.18.0** : Pour flasher la carte.
 - **X-CUBE-AI** : Extension pour l'IA (à installer via CubeIDE).
 
 > **Note :** Assurez-vous d'avoir les droits administrateur pour l'installation des pilotes ST-LINK.
 
-## 2. Solutions pour Utilisateurs Mac 🍎
-
-Les outils STM32 (notamment pour le N6) sont principalement optimisés pour Windows/Linux. Si vous êtes sur macOS, voici les solutions recommandées :
-
-### Option A : Machine Virtuelle (Recommandé)
-Utilisez **Parallels Desktop** ou **VMware Fusion** pour virtualiser Windows 10/11.
-- **Avantage :** Compatibilité totale avec les pilotes USB ST-LINK.
-- **Configuration :** Assurez-vous de rediriger les périphériques USB vers la VM.
-
-### Option B : Boot Camp (Mac Intel uniquement)
-Installez Windows en natif via Boot Camp. C'est la solution la plus stable pour les Mac à processeur Intel.
-
-### Option C : Docker (Avancé)
-Pour la compilation uniquement, vous pouvez utiliser une image Docker contenant la toolchain ARM GCC. Cependant, le flashage restera complexe sans accès direct aux ports USB.
-
-## 3. FAQ et Résolution d'Erreurs ❓
+## 2. FAQ et Résolution d'Erreurs ❓
 
 ### Erreur : "ST-LINK not found"
 - Vérifiez que le câble USB est bien connecté au port **CN6 (ST-LINK)** et non au port User USB.
