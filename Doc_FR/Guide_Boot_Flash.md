@@ -1,4 +1,4 @@
-# Programmation Avancée : Boot from Flash 💾
+# Programmation Avancée : Boot from Flash
 
 Le STM32N6 ne possédant pas de flash interne pour le code utilisateur, il est crucial de comprendre comment programmer la flash externe pour un déploiement autonome.
 

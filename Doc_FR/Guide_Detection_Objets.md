@@ -1,4 +1,4 @@
-# Tutoriel : Détection d'Objets avec IA Embarquée 🧠
+# Tutoriel : Détection d'Objets avec IA Embarquée
 
 Ce tutoriel vous guide pas-à-pas pour déployer un modèle de détection d'objets sur le STM32N6 en utilisant son NPU.
 
