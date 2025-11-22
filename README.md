@@ -3,7 +3,7 @@
 **Auteur :** Abdalla  
 **Contexte :** Projet réalisé au FabLab Valrose (Université Côte d'Azur) dans le cadre du Master 2 ESTEL
 
-Ce dépôt est un guide complet et francophone pour la prise en main du kit de développement **STM32N6570-DK**, avec un focus particulier sur l'**Intelligence Artificielle Embarquée ** et la détection d'objets.
+Ce dépôt est un guide complet et francophone pour la prise en main du kit de développement **STM32N6570-DK**, avec un focus particulier sur l'**Intelligence Artificielle Embarquée** et la détection d'objets.
 
 Il intègre et enrichit le [dépôt officiel de STMicroelectronics](https://github.com/STMicroelectronics/STM32N6-GettingStarted-ObjectDetection) avec des tutoriels pas-à-pas, des solutions aux problèmes courants et des exemples pratiques.
 
