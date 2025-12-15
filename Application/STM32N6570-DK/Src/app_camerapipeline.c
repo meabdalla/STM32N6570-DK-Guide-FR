@@ -53,7 +53,7 @@ static void DCMIPP_PipeInitDisplay(CMW_CameraInit_t *camConf, uint32_t *bg_width
   }
   else if (ASPECT_RATIO_MODE == ASPECT_RATIO_FULLSCREEN)
   {
-    aspect_ratio = CMW_Aspect_ratio_fullscreen;
+    aspect_ratio = CMW_Aspect_ratio_crop; /* Force Crop-to-Fill for Fullscreen */
   }
 
   int lcd_bg_width;
@@ -62,7 +62,7 @@ static void DCMIPP_PipeInitDisplay(CMW_CameraInit_t *camConf, uint32_t *bg_width
   lcd_bg_height = (camConf->height <= SCREEN_HEIGHT) ? camConf->height : SCREEN_HEIGHT;
 
 #if ASPECT_RATIO_MODE == ASPECT_RATIO_FULLSCREEN
-  lcd_bg_width = (((camConf->width*lcd_bg_height)/camConf->height) - ((camConf->width*lcd_bg_height)/camConf->height) % 16);
+  lcd_bg_width = 800; // Force full screen width
 #else
   lcd_bg_width = (camConf->height <= SCREEN_HEIGHT) ? camConf->height : SCREEN_HEIGHT;
 #endif

@@ -137,6 +137,37 @@ SECTIONS
     __bss_end__ = _ebss;
   } >AXISRAM1_S
 
+  /* Ethernet DMA Descriptors section */
+  /* Critique: Les descripteurs Tx doivent être alignés et commencer à l'index 0x00 (bug Zephyr #90877) */
+  .TxDecripSection (NOLOAD):
+  {
+    . = ALIGN(32);  /* Alignement 32 bytes pour les descripteurs DMA */
+    *(.TxDecripSection)
+    . = ALIGN(32);
+  } >AXISRAM1_S
+
+  .RxDecripSection (NOLOAD):
+  {
+    . = ALIGN(32);  /* Alignement 32 bytes pour les descripteurs DMA */
+    *(.RxDecripSection)
+    . = ALIGN(32);
+  } >AXISRAM1_S
+
+  /* Ethernet DMA Buffers section */
+  .RxArraySection (NOLOAD):
+  {
+    . = ALIGN(4);  /* Alignement 4 bytes pour les buffers */
+    *(.RxArraySection)
+    . = ALIGN(4);
+  } >AXISRAM1_S
+
+  .TxArraySection (NOLOAD):
+  {
+    . = ALIGN(4);  /* Alignement 4 bytes pour les buffers */
+    *(.TxArraySection)
+    . = ALIGN(4);
+  } >AXISRAM1_S
+
   /* User_heap_stack section, used to check that there is enough "RAM" Ram  type memory left */
   ._user_heap_stack :
   {

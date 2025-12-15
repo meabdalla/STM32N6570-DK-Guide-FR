@@ -34,7 +34,7 @@ extern "C" {
 
 
 /* COM defines */
-#define USE_COM_LOG                         0U
+#define USE_COM_LOG                         1U
 #define USE_BSP_COM_FEATURE                 1U
 
 /* Touch Sensing controller defines */

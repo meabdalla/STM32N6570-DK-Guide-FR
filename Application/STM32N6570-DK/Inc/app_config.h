@@ -29,7 +29,7 @@
 #define ASPECT_RATIO_CROP       (1) /* Crop both pipes to nn input aspect ratio; Original aspect ratio kept */
 #define ASPECT_RATIO_FIT        (2) /* Resize both pipe to NN input aspect ratio; Original aspect ratio not kept */
 #define ASPECT_RATIO_FULLSCREEN (3) /* Resize camera image to NN input size and display a maximized image. See Doc/Build-Options.md#aspect-ratio-mode */
-#define ASPECT_RATIO_MODE ASPECT_RATIO_CROP
+#define ASPECT_RATIO_MODE ASPECT_RATIO_FULLSCREEN
 
 /* Model Related Info */
 #define POSTPROCESS_TYPE    POSTPROCESS_OD_ST_YOLOX_UI
@@ -45,7 +45,7 @@
 /* Classes */
 #define NB_CLASSES   (1)
 #define CLASSES_TABLE const char* classes_table[NB_CLASSES] = {\
-   "person"}\
+    "person"}\
 
 /* I/O configuration */
 /* Postprocessing ST_YOLO_X configuration */

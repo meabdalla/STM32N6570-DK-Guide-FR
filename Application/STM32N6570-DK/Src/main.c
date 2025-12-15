@@ -32,8 +32,13 @@ LL_ATON_DECLARE_NAMED_NN_INSTANCE_AND_INTERFACE(Default);
 #include "app_config.h"
 #include "crop_img.h"
 #include "stlogo.h"
+#include "app_person_counter.h"
+#include "app_wifi_mqtt.h"
 
 CLASSES_TABLE;
+
+/* hcom_uart est défini dans stm32n6570_discovery.c */
+extern UART_HandleTypeDef hcom_uart[2];
 
 #define MAX_NUMBER_OUTPUT 5
 #define LCD_FG_WIDTH  SCREEN_WIDTH
@@ -152,6 +157,9 @@ int main(void)
 
   Hardware_init();
 
+  /*** Person Counter Init ****************************************************/
+  PersonCounter_Init();
+
   /*** NN Init ****************************************************************/
   uint32_t pitch_nn = 0;
   uint32_t nn_in_len = 0;
@@ -167,6 +175,14 @@ int main(void)
   CameraPipeline_Init(&lcd_bg_area.XSize, &lcd_bg_area.YSize, &pitch_nn);
 
   LCD_init();
+
+  /*** WiFi Init **************************************************************/
+  /* Initialisation WiFi (SoftSerial D10/D11)... */
+  /* Clear Background Buffer to Black (remove artifacts) */
+  memset(lcd_bg_buffer, 0, sizeof(lcd_bg_buffer));
+
+  printf("Initialisation WiFi (SoftSerial D10/D11)...\r\n");
+  WiFi_Init();
 
   /* Start LCD Display camera pipe stream */
   CameraPipeline_DisplayPipe_Start(lcd_bg_buffer, CMW_MODE_CONTINUOUS);
@@ -212,6 +228,13 @@ int main(void)
     int32_t ret = app_postprocess_run((void **) nn_out, number_output, &pp_output, &pp_params);
     assert(ret == 0);
 
+    /* Mise à jour du compteur de personnes */
+    uint32_t person_count = PersonCounter_Update(&pp_output);
+
+    /* Envoi MQTT (Gestion intelligente dans la fonction : Changement ou Heartbeat) */
+    /* On appelle souvent pour réagir vite aux changements */
+    MQTT_Publish_PersonCount(person_count);
+
     Display_NetworkOutput(&pp_output, ts[1] - ts[0]);
     /* Discard nn_out region (used by pp_input and pp_outputs variables) to avoid Dcache evictions during nn inference */
     for (int i = 0; i < number_output; i++)
@@ -243,6 +266,71 @@ static void Hardware_init(void)
 #endif
 
   SystemClock_Config();
+  
+  /* ========== INITIALISATION UART MANUELLE (USART1 sur PE5/PE6) ========== */
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  HAL_StatusTypeDef uart_status;
+  
+  /* Activation des horloges GPIO et USART1 */
+  __HAL_RCC_GPIOE_CLK_ENABLE();
+  __HAL_RCC_USART1_CLK_ENABLE();
+  
+  /* Configuration GPIO PE5 (TX) et PE6 (RX) */
+  GPIO_InitStruct.Pin = GPIO_PIN_5 | GPIO_PIN_6;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+  
+  /* Configuration USART1 : 115200 baud, 8N1 */
+  hcom_uart[0].Instance = USART1;  /* COM1 = hcom_uart[0] */
+  hcom_uart[0].Init.BaudRate = 115200;
+  hcom_uart[0].Init.WordLength = UART_WORDLENGTH_8B;
+  hcom_uart[0].Init.StopBits = UART_STOPBITS_1;
+  hcom_uart[0].Init.Parity = UART_PARITY_NONE;
+  hcom_uart[0].Init.Mode = UART_MODE_TX_RX;
+  hcom_uart[0].Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  hcom_uart[0].Init.OverSampling = UART_OVERSAMPLING_16;
+  hcom_uart[0].Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  hcom_uart[0].Init.ClockPrescaler = UART_PRESCALER_DIV1;
+  hcom_uart[0].AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  
+  uart_status = HAL_UART_Init(&hcom_uart[0]);
+  
+  /* Délai pour stabilisation */
+  HAL_Delay(100);
+  
+  /* Test DIRECT d'envoi - peu importe si HAL_UART_Init a échoué */
+  const char test_msg[] = "\r\n\r\n=== UART TEST ===\r\n";
+  for (int i = 0; i < sizeof(test_msg)-1; i++)
+  {
+    /* Attendre que TX soit prêt */
+    while (!(USART1->ISR & USART_ISR_TXE_TXFNF));
+    /* Envoyer le caractère */
+    USART1->TDR = test_msg[i];
+  }
+  
+  /* Attendre la fin de transmission */
+  while (!(USART1->ISR & USART_ISR_TC));
+  
+  /* Messages via HAL */
+  if (uart_status == HAL_OK)
+  {
+    const char ok_msg[] = "UART HAL: OK\r\n";
+    HAL_UART_Transmit(&hcom_uart[0], (uint8_t*)ok_msg, sizeof(ok_msg)-1, 1000);
+  }
+  else
+  {
+    const char err_msg[] = "UART HAL: ERREUR\r\n";
+    HAL_UART_Transmit(&hcom_uart[0], (uint8_t*)err_msg, sizeof(err_msg)-1, 1000);
+  }
+  
+  /* Test printf */
+  printf("========================================\r\n");
+  printf("  STM32N6570-DK - Object Detection\r\n");
+  printf("  UART Console : OK via printf\r\n");
+  printf("========================================\r\n");
 
   NPURam_enable();
 

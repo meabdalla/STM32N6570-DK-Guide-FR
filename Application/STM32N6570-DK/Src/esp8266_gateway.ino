@@ -4,15 +4,15 @@
 #include "certificate.h"
 
 /* --- CONFIGURATION --- */
-const char* ssid = "#######";
-const char* password = "#######";
+const char* ssid = "####SSID####";
+const char* password = "####PASS####";
 
-const char* mqtt_server = "mqtt#######";
-const int mqtt_port = ####;
-const char* mqtt_topic = "stm32N6/person_count";
+const char* mqtt_server = "####MQTT_HOST####";
+const int mqtt_port = 8443;
+const char* mqtt_topic = "FABLAB_21_22/stm32N6/person_count";
 const char* mqtt_client_id = "STM32N6_Client";
-const char* mqtt_user = "######";
-const char* mqtt_pass = "####";
+const char* mqtt_user = "####MQTT_USER####";
+const char* mqtt_pass = "####MQTT_PASS####";
 
 /* --- GLOBALS --- */
 BearSSL::WiFiClientSecure espClient;

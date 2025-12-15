@@ -51,8 +51,23 @@
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/app_fuseprogramming.c</locationURI>
 		</link>
-		<link>
-			<name>Application/app_postprocess_iseg_yolo_v8_ui.c</name>
+	<link>
+		<name>Application/app_person_counter.c</name>
+		<type>1</type>
+		<locationURI>PARENT-1-PROJECT_LOC/Src/app_person_counter.c</locationURI>
+	</link>
+	<link>
+		<name>Application/app_wifi_mqtt.c</name>
+		<type>1</type>
+		<locationURI>PARENT-1-PROJECT_LOC/Src/app_wifi_mqtt.c</locationURI>
+	</link>
+	<link>
+		<name>Application/app_soft_serial.c</name>
+		<type>1</type>
+		<locationURI>PARENT-1-PROJECT_LOC/Src/app_soft_serial.c</locationURI>
+	</link>
+	<link>
+		<name>Application/app_postprocess_iseg_yolo_v8_ui.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/Middlewares/ai-postprocessing-wrapper/app_postprocess_iseg_yolo_v8_ui.c</locationURI>
 		</link>
@@ -326,13 +341,13 @@
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/STM32Cube_FW_N6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_rif.c</locationURI>
 		</link>
-		<link>
-			<name>Drivers/STM32N6xx_HAL_Driver/stm32n6xx_hal_xspi.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/STM32Cube_FW_N6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_xspi.c</locationURI>
-		</link>
-		<link>
-			<name>Middlewares/Camera_Middleware/cmw_camera.c</name>
+	<link>
+		<name>Drivers/STM32N6xx_HAL_Driver/stm32n6xx_hal_xspi.c</name>
+		<type>1</type>
+		<locationURI>PARENT-3-PROJECT_LOC/STM32Cube_FW_N6/Drivers/STM32N6xx_HAL_Driver/Src/stm32n6xx_hal_xspi.c</locationURI>
+	</link>
+	<link>
+		<name>Middlewares/Camera_Middleware/cmw_camera.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/Middlewares/Camera_Middleware/cmw_camera.c</locationURI>
 		</link>
