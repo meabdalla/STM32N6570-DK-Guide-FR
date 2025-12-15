@@ -1,0 +1,7 @@
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_soft_serial.c:21:13:Delay_Us	2
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_soft_serial.c:29:6:SoftSerial_Init	1
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_soft_serial.c:59:6:SoftSerial_WriteByte	3
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_soft_serial.c:80:6:SoftSerial_Print	2
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_soft_serial.c:88:6:SoftSerial_Write	2
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_soft_serial.c:98:5:SoftSerial_Read	4
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_soft_serial.c:127:5:SoftSerial_Available	1

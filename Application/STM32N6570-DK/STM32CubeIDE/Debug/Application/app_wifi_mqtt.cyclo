@@ -1,0 +1,5 @@
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_wifi_mqtt.c:19:13:Log_Status	1
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_wifi_mqtt.c:40:6:WiFi_Init	1
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_wifi_mqtt.c:55:6:MQTT_Publish_PersonCount	3
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_wifi_mqtt.c:78:6:WiFi_Process	1
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_wifi_mqtt.c:83:9:WiFi_IsConnected	1

@@ -1,0 +1,4 @@
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_person_counter.c:38:6:PersonCounter_Init	8	static
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_person_counter.c:49:10:PersonCounter_Update	16	static
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_person_counter.c:81:6:PersonCounter_GetStatus	0	static
+C:/Users/UE FABLAB/Desktop/stm32objetdetec_projet_tutorat/de_base/STM32N6570-DK-Guide-FR-master/STM32N6570-DK-Guide-FR-master/Application/STM32N6570-DK/Src/app_person_counter.c:93:10:PersonCounter_GetCount	0	static
