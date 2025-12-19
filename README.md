@@ -44,4 +44,3 @@ Ce dépôt contient l'intégralité du code source officiel nécessaire pour sui
 
 ---
 
-*Ce projet a été réalisé dans le cadre du Master 2 Électronique des Systèmes Embarqués et Télécommunications (ESTEL).*
