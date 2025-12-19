@@ -17,9 +17,9 @@ Il intègre et enrichit le [dépôt officiel de STMicroelectronics](https://gith
 
 ### 2. [Tutoriel : Détection d'Objets avec IA](Doc_FR/Guide_Detection_Objets.md)
 - Comprendre le NPU du STM32N6.
-- Déployer le modèle **YOLOv10n** officiel.
+- Déployer le modèle **YOLOv10n**.
 - Utiliser **STEdgeAI v2.2.0** pour générer et quantifier vos propres modèles.
-- Exemples pratiques avec **TensorFlow Lite**.
+
 
 ### 3. [Programmation Avancée : Boot from Flash](Doc_FR/Guide_Boot_Flash.md)
 - Explication des 3 fichiers hexadécimaux essentiels.
