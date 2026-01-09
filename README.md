@@ -1,6 +1,6 @@
 # Guide Complet : Détection d’Objets sur STM32N6570-DK
 
-**Contributeur :** Abdalla  
+**Auteur :** Abdalla  
 **Contexte :** Projet réalisé au FabLab Valrose (Université Côte d’Azur) dans le cadre du Master 2 ESTEL
 
 Ce dépôt est un **guide complet et francophone** pour la prise en main du kit de développement **STM32N6570-DK**, avec un focus particulier sur l’**Intelligence Artificielle embarquée** et la **détection de personnes**.
@@ -53,24 +53,3 @@ Ce dépôt contient l’intégralité des ressources nécessaires pour suivre le
 - `Middlewares/` : bibliothèques ST (y compris les composants IA)  
 - `Doc_FR/` : **guides et tutoriels détaillés en français**
 
----
-
-## Confidentialité et bonnes pratiques
-
-Le traitement des images est effectué **exclusivement sur la carte STM32**.  
-Aucune image n’est transmise ni stockée : seules des **données numériques synthétiques** (ex. nombre de personnes détectées) peuvent être exploitées par des applications externes.
-
-Cette approche garantit le respect de la vie privée et s’inscrit dans une démarche **privacy-by-design**.
-
----
-
-## Contributions
-
-Ce dépôt s’inscrit dans un **travail collaboratif** mené dans un cadre académique et pédagogique.
-
-Mes contributions portent notamment sur :
-- la **relecture, la clarification et l’amélioration de la documentation** (README et guides en français) ;
-- la **structuration du dépôt** afin d’en faciliter la compréhension et la reproductibilité ;
-- la mise en place et l’utilisation du **workflow Git collaboratif** (fork, commits, pull requests).
-
-Ces apports visent à renforcer l’accessibilité du projet, sa lisibilité technique et son utilisation comme support pédagogique autour de l’IA embarquée sur STM32.
