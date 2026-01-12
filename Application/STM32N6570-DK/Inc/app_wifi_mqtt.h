@@ -1,6 +1,6 @@
 /**
  * @file    app_wifi_mqtt.h
- * @author  Antigravity
+ * @author  abdalla
  * @brief   Header file for WiFi and MQTT application
  */
 
@@ -24,3 +24,4 @@ uint8_t WiFi_IsConnected(void);
 #endif
 
 #endif /* APP_WIFI_MQTT_H */
+
